@@ -1,5 +1,7 @@
 # Primary Documentation
 
+Project by Steven Abreu, Matius Chairani, Malte Granderath, and Tudor Maiereanu
+
 ### Basic Functionality
 
 * Scheduling application, used to schedule meetings and events on campus
