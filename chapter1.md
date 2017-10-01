@@ -4,8 +4,11 @@
 
 * Scheduling application to schedule meetings and events on campus.
 * User can create new meetings and events or join existing ones.
+* Public and Private events
 
 ### User Interaction
+
+Input will be generally checked on backend and frontend
 
 * Login & Signup
   * Creating an account based on a @jacobs-university.de E-Mail address.
@@ -33,9 +36,9 @@
   * Create a new group that this user can administrate
   * The administrator of a group can invite, remove, accept and reject users to/from that group
 
-_Group Administration ??_
-
 ### Stored Information
+
+We will retrieve data by user input ie. registering, creating events and joining events
 
 * User Account
   * Name, E-Mail, username, password
@@ -46,10 +49,4 @@ _Group Administration ??_
 * Events
   * Name, time, location, description, categories, ..
   * Created and managed entirely by users
-
-### System and Model of the data
-
--- _Insert UML or ER model here --_
-
-
 
