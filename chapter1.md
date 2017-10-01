@@ -5,7 +5,6 @@
 * Scheduling application, used to schedule meetings and events on campus
 * Users can create new meetings and events, or join existing ones
 * Public and Private events
-* On-campus public venue bookings
 
 ### User Interaction
 
