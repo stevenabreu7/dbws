@@ -2,34 +2,36 @@
 
 ### Basic Functionality
 
-* Scheduling application to schedule meetings and events on campus.
-* User can create new meetings and events or join existing ones.
+* Scheduling application, used to schedule meetings and events on campus
+* Users can create new meetings and events, or join existing ones
 * Public and Private events
+* On-campus public venue bookings
 
 ### User Interaction
 
-Input will be generally checked on backend and frontend
+User input will be checked on backend and frontend
 
-* Login & Signup
-  * Creating an account based on a @jacobs-university.de E-Mail address.
+* Login & signup
+  * Create user accounts using a @jacobs-university.de e-mail address.
   * Logging into an existing account
-* Dashboard \(List of upcoming events\)
+* User Dashboard \(List of upcoming events\)
   * View upcoming events
-  * Filter upcoming events by categories, participants, tag, ...
-  * Sort upcoming events in ascending, descending order \(alphabetical, date, ..\)
+  * View event invites
+  * Filter upcoming events by categories, participants, tag, venue, etc
+  * Sort upcoming events in ascending, descending order \(alphabetical, date, etc\)
   * View past events \(archive\)
-* Per-Event Dashboard \(Details for one specific event\)
-  * View details of an event \(participant number, location, host, ..\)
-  * Join an event
-* Creating a new Event
+* Event Dashboard \(Details for one specific event\)
+  * View details of an event \(participant number, venue, host, participants, etc\)
+  * Join / decline an event
+* Creating a new event
   * Input all information that describes a future event
-  * Submitting the event _\(maybe only to a certain group of people - only C3, only CS majors, ..\)_
+  * Exclusive events invite filtering _\(maybe only to a certain group of people - only C3, only CS majors, etc\)_
 * Managing hosted events
   * View details of an event hosted by this user
   * Change informations of this event
-  * See who signed up _\(maybe admit or reject participants\)_
+  * Check who signed up _\(maybe admit or reject participants\)_
 * Account Management
-  * View and change account details \(password, username, _maybe image_, ...\)
+  * View and change account details \(password, username, _maybe image_, etc\)
   * Delete account \(and thus deactivate all hosted events of this user\)
 * Group Management
   * View all groups this user belongs to
@@ -45,8 +47,8 @@ We will retrieve data by user input ie. registering, creating events and joining
   * Each user creates their own account with their information
 * Groups
   * Name, Users in this group
-  * Some of them are fixed \(colleges, majors, years, faculty, ..\) - probably owned by "Jacobs University" or "Admin"
+  * Some of them are fixed \(colleges, majors, years, faculty, etc\) - probably owned by "Jacobs University" or "Admin"
 * Events
-  * Name, time, location, description, categories, ..
+  * Name, time, venue, description, categories, etc
   * Created and managed entirely by users
 
