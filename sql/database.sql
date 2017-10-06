@@ -4,13 +4,16 @@ CREATE TABLE Residence (
 );
 
 CREATE TABLE Category (
-  placeholder INTEGER
+  catid INTEGER PRIMARY KEY,
+  name VARCHAR(30)
 );
 CREATE TABLE Location (
-  placeholder INTEGER
+  lid INTEGER PRIMARY KEY,
+  name VARCHAR(30)
 );
 CREATE TABLE EventDate (
-  placeholder INTEGER
+  -- rethink this one! multiple with same primary key!
+  recid INTEGER
 );
 
 CREATE TABLE User (
@@ -28,33 +31,46 @@ CREATE TABLE Admin (
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
 CREATE TABLE Student (
-  placeholder INTEGER
+  uid INTEGER PRIMARY KEY,
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 CREATE TABLE Staff (
-  placeholder INTEGER
+  uid INTEGER PRIMARY KEY,
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 CREATE TABLE Professor (
-  placeholder INTEGER
+  uid INTEGER PRIMARY KEY,
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 
 CREATE TABLE Notification (
-  placeholder INTEGER
+  nid INTEGER PRIMARY KEY,
+  uid INTEGER,
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 CREATE TABLE InviteNotification (
-  placeholder INTEGER
+  nid INTEGER PRIMARY KEY
 );
 CREATE TABLE RequestNotification (
-  placeholder INTEGER
+  nid INTEGER PRIMARY KEY
 );
 
 CREATE TABLE UserGroup (
-  placeholder INTEGER
+  gid INTEGER PRIMARY KEY,
+  name VARCHAR(30),
+  max INTEGER
 );
 CREATE TABLE UserGroupMembership (
-  placeholder INTEGER
+  gid INTEGER PRIMARY KEY,
+  uid INTEGER UNIQUE,
+  FOREIGN KEY (gid) REFERENCES UserGroup(gid),
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 CREATE TABLE UserGroupOwner (
-  placeholder INTEGER
+  gid INTEGER PRIMARY KEY,
+  uid INTEGER UNIQUE,
+  FOREIGN KEY (gid) REFERENCES UserGroup(gid),
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
 
 CREATE TABLE Event (
@@ -62,21 +78,31 @@ CREATE TABLE Event (
   name VARCHAR(40),
   public BOOLEAN,
   gid INTEGER,
-  locid INTEGER,
-  catid INTEGER
-  -- FOREIGN KEY (gid) REFERENCES Group(gid),
-  -- FOREIGN KEY (lid) REFERENCES Location(lid),
-  -- FOREIGN KEY (catid) REFERENCES Category(catid)
+  lid INTEGER,
+  catid INTEGER,
+  FOREIGN KEY (gid) REFERENCES UserGroup(gid),
+  FOREIGN KEY (lid) REFERENCES Location(lid),
+  FOREIGN KEY (catid) REFERENCES Category(catid)
 );
 CREATE TABLE OneTimeEvent (
-  placeholder INTEGER
+  eid INTEGER PRIMARY KEY,
+  day INTEGER,
+  starttime DATE,
+  endtime DATE,
+  FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 CREATE TABLE RecurringEvent (
-  placeholder INTEGER
+  reid INTEGER PRIMARY KEY,
+  eid INTEGER UNIQUE,
+  times INTEGER,
+  FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 
 CREATE TABLE Organizer (
-  placeholder INTEGER
+  uid INTEGER PRIMARY KEY,
+  eid INTEGER UNIQUE,
+  FOREIGN KEY (uid) REFERENCES User(uid),
+  FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 
 CREATE TABLE Invite (
@@ -91,5 +117,8 @@ CREATE TABLE EventInvite (
   FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 CREATE TABLE UserGroupInvite (
-  placeholder INTEGER
+  iid INTEGER PRIMARY KEY,
+  uid INTEGER,
+  FOREIGN KEY (iid) REFERENCES Invite(iid),
+  FOREIGN KEY (uid) REFERENCES User(uid)
 );
