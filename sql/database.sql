@@ -3,15 +3,15 @@ CREATE DATABASE dbws;
 USE dbws;
 
 CREATE TABLE Residence (
-rid INT AUTO_INCREMENT,
-name VARCHAR(20) NOT NULL, -- College name
-PRIMARY KEY (rid)
+	rid INT AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL, -- College name
+	PRIMARY KEY (rid)
 );
 
 CREATE TABLE Category (
-catid INT AUTO_INCREMENT,
-name VARCHAR(30) NOT NULL,
-PRIMARY KEY (catid)
+	catid INT AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	PRIMARY KEY (catid)
 );
 
 CREATE TABLE Location (
