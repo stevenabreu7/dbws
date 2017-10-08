@@ -11,10 +11,12 @@ CREATE TABLE Category (
   catid INTEGER PRIMARY KEY,
   name VARCHAR(30)
 );
+
 CREATE TABLE Location (
   lid INTEGER PRIMARY KEY,
   name VARCHAR(30)
 );
+
 CREATE TABLE EventDate (
   -- rethink this one! multiple with same primary key!
   recid INTEGER
@@ -30,20 +32,26 @@ CREATE TABLE User (
   rid INTEGER,
   FOREIGN KEY (rid) REFERENCES Residence(rid)
 );
+
 CREATE TABLE Admin (
   uid INTEGER PRIMARY KEY,
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE Student (
   uid INTEGER PRIMARY KEY,
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE Staff (
   uid INTEGER PRIMARY KEY,
+  department VARCHAR(30),
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE Professor (
   uid INTEGER PRIMARY KEY,
+  research VARCHAR(30),
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
 
@@ -52,9 +60,11 @@ CREATE TABLE Notification (
   uid INTEGER,
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE InviteNotification (
   nid INTEGER PRIMARY KEY
 );
+
 CREATE TABLE RequestNotification (
   nid INTEGER PRIMARY KEY
 );
@@ -64,15 +74,19 @@ CREATE TABLE UserGroup (
   name VARCHAR(30),
   max INTEGER
 );
+
 CREATE TABLE UserGroupMembership (
-  gid INTEGER PRIMARY KEY,
-  uid INTEGER UNIQUE,
+  gid INTEGER,
+  uid INTEGER,
+  PRIMARY KEY (gid, uid),
   FOREIGN KEY (gid) REFERENCES UserGroup(gid),
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE UserGroupOwner (
-  gid INTEGER PRIMARY KEY,
-  uid INTEGER UNIQUE,
+  gid INTEGER,
+  uid INTEGER,
+  PRIMARY KEY (gid, uid),
   FOREIGN KEY (gid) REFERENCES UserGroup(gid),
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
@@ -88,6 +102,7 @@ CREATE TABLE Event (
   FOREIGN KEY (lid) REFERENCES Location(lid),
   FOREIGN KEY (catid) REFERENCES Category(catid)
 );
+
 CREATE TABLE OneTimeEvent (
   eid INTEGER PRIMARY KEY,
   day INTEGER,
@@ -95,6 +110,7 @@ CREATE TABLE OneTimeEvent (
   endtime DATE,
   FOREIGN KEY (eid) REFERENCES Event(eid)
 );
+
 CREATE TABLE RecurringEvent (
   reid INTEGER PRIMARY KEY,
   eid INTEGER UNIQUE,
@@ -114,12 +130,14 @@ CREATE TABLE Invite (
   uid INTEGER,
   FOREIGN KEY (uid) REFERENCES User(uid)
 );
+
 CREATE TABLE EventInvite (
   iid INTEGER PRIMARY KEY,
   eid INTEGER,
   FOREIGN KEY (iid) REFERENCES Invite(iid),
   FOREIGN KEY (eid) REFERENCES Event(eid)
 );
+
 CREATE TABLE UserGroupInvite (
   iid INTEGER PRIMARY KEY,
   uid INTEGER,
