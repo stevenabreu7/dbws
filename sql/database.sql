@@ -20,16 +20,6 @@ CREATE TABLE Location (
 	PRIMARY KEY (locid)
 );
 
-CREATE TABLE RecurringSingle (
-	rsid INT AUTO_INCREMENT,
-	recid INT,
-	day DATE NOT NULL,
-	starttime TIME NOT NULL,
-	endtime TIME NOT NULL,
-	PRIMARY KEY (rsid),
-	FOREIGN KEY (recid) REFERENCES RecurringEvent(recid)
-);
-
 CREATE TABLE User (
 	uid INT AUTO_INCREMENT,
 	firstname VARCHAR(30) NOT NULL,
@@ -42,19 +32,28 @@ CREATE TABLE User (
 	FOREIGN KEY (rid) REFERENCES Residence(rid)
 );
 
+CREATE TABLE Student (
+	uid INT,
+	major VARCHAR(30),
+	rid INT,
+	PRIMARY KEY (uid),
+	FOREIGN KEY (uid) REFERENCES User(uid),
+	FOREIGN KEY (rid) REFERENCES Residence(rid)
+);
+
+CREATE TABLE Request (
+	reqid INT AUTO_INCREMENT,
+	uid INT,
+	message VARCHAR(256) NOT NULL,
+	decision BOOL,
+	PRIMARY KEY (reqid),
+	FOREIGN KEY (uid) REFERENCES User(uid)
+);
+
 CREATE TABLE Admin (
 	uid INT,
 	PRIMARY KEY (uid),
 	FOREIGN KEY (uid) REFERENCES User(uid)
-);
-
-CREATE TABLE Student (
-	uid INT,
-	major VARCHAR(30),
-	rid VARCHAR (20),
-	PRIMARY KEY (uid),
-	FOREIGN KEY (uid) REFERENCES User(uid),
-	FOREIGN KEY (rid) REFERENCES Residence(rid)
 );
 
 CREATE TABLE Staff (
@@ -77,22 +76,6 @@ CREATE TABLE Notification (
 	Message VARCHAR(256),
 	PRIMARY KEY (nid),
 	FOREIGN KEY (uid) REFERENCES User(uid)
-);
-
-CREATE TABLE InviteNotification (
-	nid INT,
-	iid INT,
-	PRIMARY KEY (nid),
-	FOREIGN KEY (nid) REFERENCES Notification(nid)
-	FOREIGN KEY (iid) REFERENCES Invite(iid)
-);
-
-CREATE TABLE RequestNotification (
-	nid INT,
-	reqid INT,
-	PRIMARY KEY (nid),
-	FOREIGN KEY (nid) REFERENCES Notification(nid),
-	FOREIGN KEY (reqid) REFERENCES Request(reqid)
 );
 
 -- Groups can be official or unofficial groups i.e. "CS Club", "J-Capella", or a friend group, like "Squad"
@@ -130,17 +113,17 @@ CREATE TABLE Event (
 	max INT, -- Maximum number of people in an event, can be null (no limit)
 	PRIMARY KEY (eid),
 	FOREIGN KEY (gid) REFERENCES UserGroup(gid),
-	FOREIGN KEY (lid) REFERENCES Location(lid),
+	FOREIGN KEY (locid) REFERENCES Location(locid),
 	FOREIGN KEY (catid) REFERENCES Category(catid)
 );
 
 CREATE TABLE OneTimeEvent (
 	eid INT,
 	day DATE,
-	starttime TIME NOT NULL,
-	endtime TIME NOT NULL,
+	starttime TIME,
+	endtime TIME,
 	PRIMARY KEY (eid),
-	FOREIGN KEY (eid) REFERENCES Event(eid)
+FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 
 CREATE TABLE RecurringEvent (
@@ -181,16 +164,7 @@ CREATE TABLE UserGroupInvite (
 	gid INT,
 	PRIMARY KEY (iid),
 	FOREIGN KEY (iid) REFERENCES Invite(iid),
-	FOREIGN KEY (gid) REFERENCES User(gid)
-);
-
-CREATE TABLE Request (
-	reqid INT AUTO_INCREMENT,
-	uid INT,
-	message VARCHAR(256) NOT NULL,
-	decision BOOL,
-	PRIMARY KEY (reqid),
-	FOREIGN KEY (uid) REFERENCES User(uid)
+	FOREIGN KEY (gid) REFERENCES UserGroup(gid)
 );
 
 CREATE TABLE EventRequest (
@@ -209,10 +183,36 @@ CREATE TABLE SingularAttendance (
 	FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 
+CREATE TABLE RecurringSingle (
+	rsid INT AUTO_INCREMENT,
+	recid INT,
+	day DATE NOT NULL,
+	starttime TIME NOT NULL,
+	endtime TIME NOT NULL,
+	PRIMARY KEY (rsid),
+	FOREIGN KEY (recid) REFERENCES RecurringEvent(recid)
+);
+
 CREATE TABLE RecurringAttendance (
 	uid INT,
 	rsid INT,
 	PRIMARY KEY (uid, rsid),
 	FOREIGN KEY (uid) REFERENCES User(uid),
 	FOREIGN KEY (rsid) REFERENCES RecurringSingle(rsid)
+);
+
+CREATE TABLE InviteNotification (
+	nid INT,
+	iid INT,
+	PRIMARY KEY (nid),
+	FOREIGN KEY (nid) REFERENCES Notification(nid),
+	FOREIGN KEY (iid) REFERENCES Invite(iid)
+);
+
+CREATE TABLE RequestNotification (
+	nid INT,
+	reqid INT,
+	PRIMARY KEY (nid),
+	FOREIGN KEY (nid) REFERENCES Notification(nid),
+	FOREIGN KEY (reqid) REFERENCES Request(reqid)
 );
