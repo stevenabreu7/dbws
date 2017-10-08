@@ -3,40 +3,40 @@ CREATE DATABASE dbws;
 USE dbws;
 
 CREATE TABLE Residence (
-	rid INT,
-	name VARCHAR(20), -- College name
-	PRIMARY KEY (rid)
+rid INT AUTO_INCREMENT,
+name VARCHAR(20) NOT NULL, -- College name
+PRIMARY KEY (rid)
 );
 
 CREATE TABLE Category (
-	catid INT,
-	name VARCHAR(30),
-	PRIMARY KEY (catid)
+catid INT AUTO_INCREMENT,
+name VARCHAR(30) NOT NULL,
+PRIMARY KEY (catid)
 );
 
 CREATE TABLE Location (
-	locid INT,
-	name VARCHAR(30),
+	locid INT AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
 	PRIMARY KEY (locid)
 );
 
 CREATE TABLE RecurringSingle (
-	rsid INT,
+	rsid INT AUTO_INCREMENT,
 	recid INT,
-	day DATE,
-	starttime TIME,
-	endtime TIME,
+	day DATE NOT NULL,
+	starttime TIME NOT NULL,
+	endtime TIME NOT NULL,
 	PRIMARY KEY (rsid),
 	FOREIGN KEY (recid) REFERENCES RecurringEvent(recid)
 );
 
 CREATE TABLE User (
-	uid INT,
-	firstname VARCHAR(30),
-	lastname VARCHAR(30),
-	email VARCHAR(30),
-	activated BOOLEAN,
-	joined DATE,
+	uid INT AUTO_INCREMENT,
+	firstname VARCHAR(30) NOT NULL,
+	lastname VARCHAR(30) NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	activated BOOLEAN NOT NULL,
+	joined DATE NOT NULL,
 	rid INT,
 	PRIMARY KEY (uid),
 	FOREIGN KEY (rid) REFERENCES Residence(rid)
@@ -53,7 +53,8 @@ CREATE TABLE Student (
 	major VARCHAR(30),
 	rid VARCHAR (20),
 	PRIMARY KEY (uid),
-	FOREIGN KEY (uid) REFERENCES User(uid)
+	FOREIGN KEY (uid) REFERENCES User(uid),
+	FOREIGN KEY (rid) REFERENCES Residence(rid)
 );
 
 CREATE TABLE Staff (
@@ -71,7 +72,7 @@ CREATE TABLE Professor (
 );
 
 CREATE TABLE Notification (
-	nid INT,
+	nid INT AUTO_INCREMENT,
 	uid INT,
 	Message VARCHAR(256),
 	PRIMARY KEY (nid),
@@ -90,11 +91,12 @@ CREATE TABLE RequestNotification (
 	FOREIGN KEY (nid) REFERENCES Notification(nid)
 );
 
--- Groups can be official or unofficial groups i.e. CS Club, J-Capella, or Squad
-	CREATE TABLE UserGroup (
-	gid INT,
-	name VARCHAR(30),
+-- Groups can be official or unofficial groups i.e. "CS Club", "J-Capella", or a friend group, like "Squad"
+CREATE TABLE UserGroup (
+	gid INT AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
 	max INT, -- Maximum number of members in a group
+	description VARCHAR(256),
 	PRIMARY KEY (gid)
 );
 
@@ -115,13 +117,13 @@ CREATE TABLE UserGroupOwner (
 );
 
 CREATE TABLE Event (
-	eid INT,
-	name VARCHAR(40),
+	eid INT AUTO_INCREMENT,
+	name VARCHAR(40) NOT NULL,
 	public BOOLEAN,
 	gid INT,
 	locid INT,
 	catid INT,
-	max INT, -- Maximum number of people in an event
+	max INT, -- Maximum number of people in an event, can be null (no limit)
 	PRIMARY KEY (eid),
 	FOREIGN KEY (gid) REFERENCES UserGroup(gid),
 	FOREIGN KEY (lid) REFERENCES Location(lid),
@@ -131,16 +133,16 @@ CREATE TABLE Event (
 CREATE TABLE OneTimeEvent (
 	eid INT,
 	day DATE,
-	starttime TIME,
-	endtime TIME,
+	starttime TIME NOT NULL,
+	endtime TIME NOT NULL,
 	PRIMARY KEY (eid),
 	FOREIGN KEY (eid) REFERENCES Event(eid)
 );
 
 CREATE TABLE RecurringEvent (
-	recid INT,
-	eid INT UNIQUE,
-	occurrences INT,
+	recid INT AUTO_INCREMENT,
+	eid INT,
+	occurrences INT NOT NULL,
 	PRIMARY KEY(recid),
 	FOREIGN KEY (eid) REFERENCES Event(eid)
 );
@@ -154,9 +156,9 @@ CREATE TABLE Organizer (
 );
 
 CREATE TABLE Invite (
-	iid INT,
+	iid INT AUTO_INCREMENT,
 	uid INT,
-	message VARCHAR(100),
+	message VARCHAR(256),
 	decision BOOLEAN,
 	PRIMARY KEY (iid),
 	FOREIGN KEY (uid) REFERENCES User(uid)
@@ -187,9 +189,9 @@ CREATE TABLE EventAttendance (
 );
 
 CREATE TABLE Request (
-	reqid INT,
+	reqid INT AUTO_INCREMENT,
 	uid INT,
-	message VARCHAR(256),
+	message VARCHAR(256) NOT NULL,
 	decision BOOL,
 	PRIMARY KEY (reqid),
 	FOREIGN KEY (uid) REFERENCES User(uid)
@@ -201,4 +203,20 @@ CREATE TABLE EventRequest (
 	PRIMARY KEY (reqid),
 	FOREIGN KEY (reqid) REFERENCES Request(reqid),
 	FOREIGN KEY (eid) REFERENCES Event(eid)
+);
+
+CREATE TABLE SingularAttendance (
+	uid INT,
+	eid INT,
+	PRIMARY KEY (uid, eid),
+	FOREIGN KEY (uid) REFERENCES User(uid),
+	FOREIGN KEY (eid) REFERENCES Event(eid)
+);
+
+CREATE TABLE RecurringAttendance (
+	uid INT,
+	rsid INT,
+	PRIMARY KEY (uid, rsid),
+	FOREIGN KEY (uid) REFERENCES User(uid),
+	FOREIGN KEY (rsid) REFERENCES RecurringSingle(rsid)
 );
