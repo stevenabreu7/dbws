@@ -1,4 +1,5 @@
-DROP DATABASE IF EXISTS dbws;
+D
+ROP DATABASE IF EXISTS dbws;
 CREATE DATABASE dbws;
 USE dbws;
 
@@ -81,14 +82,18 @@ CREATE TABLE Notification (
 
 CREATE TABLE InviteNotification (
 	nid INT,
+	iid INT,
 	PRIMARY KEY (nid),
 	FOREIGN KEY (nid) REFERENCES Notification(nid)
+	FOREIGN KEY (iid) REFERENCES Invite(iid)
 );
 
 CREATE TABLE RequestNotification (
 	nid INT,
+	reqid INT,
 	PRIMARY KEY (nid),
-	FOREIGN KEY (nid) REFERENCES Notification(nid)
+	FOREIGN KEY (nid) REFERENCES Notification(nid),
+	FOREIGN KEY (reqid) REFERENCES Request(reqid)
 );
 
 -- Groups can be official or unofficial groups i.e. "CS Club", "J-Capella", or a friend group, like "Squad"
@@ -178,14 +183,6 @@ CREATE TABLE UserGroupInvite (
 	PRIMARY KEY (iid),
 	FOREIGN KEY (iid) REFERENCES Invite(iid),
 	FOREIGN KEY (gid) REFERENCES User(gid)
-);
-
-CREATE TABLE EventAttendance (
-	uid INT,
-	eid INT,
-	PRIMARY KEY (uid, eid),
-	FOREIGN KEY (uid) REFERENCES User (uid),
-	FOREIGN KEY (eid) REFERENCES Event (eid)
 );
 
 CREATE TABLE Request (
