@@ -96,6 +96,7 @@ WHERE U.uid IN (SELECT )
 ```
 
 4) Get the names of all users that participate in at least one event
+
 ```
 SELECT DISTINCT U
 FROM User U, Participating P
@@ -106,7 +107,8 @@ WHERE U.uid = P.uid
 
 ```
 SELECT Event
-FROM Event E, 
+FROM Event E, Location L
+WHERE E.lid = L.lid AND L.name = 'location'
 ```
 
 6) Get all events taking place at a specific time
