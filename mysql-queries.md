@@ -58,14 +58,26 @@ GROUP BY C.name
 
 ```
 SELECT COUNT(S.sid)
-FROM Student S, LivesIn L, Residence R
-WHERE S.sid = L.sid AND R.rid = L.rid
+FROM Student S, Residence R
+WHERE S.rid = R.rid 
 GROUP BY R.name
 ```
 
 ### Join (at least 4)
 1) Get a table of all students and their residences
+
+```
+SELECT *
+FROM Student S, Residence R
+WHERE S.rid = R.rid
+```
+
 2) Get a table of all users and the events names they're participating in
+
+```
+
+```
+
 3) Get a table of all users and the events names they're hosting in
 4) Get a table of all user groups and their member names
 5) Get a table of all recurring events and their dates
