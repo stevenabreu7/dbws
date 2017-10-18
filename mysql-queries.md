@@ -68,31 +68,44 @@ MariaDB [dbws]> SELECT UG.name, COUNT(U.uid)
 3) Return the number of events in each category
 
 ```
-SELECT COUNT(E.eid)
+SELECT C.name, COUNT(E.eid)
 FROM Event E, Category C
 WHERE E.catid = C.catid
 GROUP BY C.name
 
-MariaDB [dbws]> SELECT COUNT(E.eid)
+MariaDB [dbws]> SELECT C.name, COUNT(E.eid)
     -> FROM Event E, Category C
     -> WHERE E.catid = C.catid
     -> GROUP BY C.name;
-Empty set (0.00 sec)
++-------------+--------------+
+| name        | COUNT(E.eid) |
++-------------+--------------+
+| Party       |            1 |
+| Study Group |            1 |
++-------------+--------------+
+2 rows in set (0.00 sec)
 ```
 
 4.) Return the number of students living in each residence
 
 ```
-SELECT COUNT(U.uid)
+SELECT R.name, COUNT(U.uid)
 FROM User U, Residence R
 WHERE U.rid = R.rid 
 GROUP BY R.name
 
-MariaDB [dbws]> SELECT COUNT(U.uid)
+MariaDB [dbws]> SELECT R.name, COUNT(U.uid)
     -> FROM User U, Residence R
     -> WHERE U.rid = R.rid 
     -> GROUP BY R.name;
-Empty set (0.00 sec)
++-------+--------------+
+| name  | COUNT(U.uid) |
++-------+--------------+
+| C3    |            1 |
+| Krupp |            1 |
++-------+--------------+
+2 rows in set (0.00 sec)
+
 ```
 
 ### Join (at least 4)
@@ -100,13 +113,20 @@ Empty set (0.00 sec)
 
 ```
 SELECT *
-FROM Student S, Residence R
-WHERE S.rid = R.rid
+FROM User U, Residence R
+WHERE U.rid = R.rid
 
 MariaDB [dbws]> SELECT *
-    -> FROM Student S, Residence R
-    -> WHERE S.rid = R.rid;
-Empty set (0.00 sec)
+    -> FROM User U, Residence R
+    -> WHERE U.rid = R.rid;
++-----+-----------+-------------+---------------+-----------+------------+------+-----+-------+
+| uid | firstname | lastname    | email         | activated | joined     | rid  | rid | name  |
++-----+-----------+-------------+---------------+-----------+------------+------+-----+-------+
+|   1 | Freshie   | McFreshface | f.mcfreshface |         1 | 2016-09-01 |    1 |   1 | Krupp |
+|   2 | Oldie     | McOldface   | o.mcoldface   |         1 | 2015-09-01 |    2 |   2 | C3    |
++-----+-----------+-------------+---------------+-----------+------------+------+-----+-------+
+2 rows in set (0.00 sec)
+
 ```
 
 2) Get a table of all users and the events names they're participating in
