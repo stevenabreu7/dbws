@@ -4,85 +4,21 @@ We need 12 queries in total.
 
 ### Aggregate (at least 1)
 
-1) Return the average age of all students
-
-```
-SELECT AVG(S.age)
-FROM Student S
-```
-
-2) Return the number of professors participating in at least one event
-
-```
-SELECT COUNT(P)
-FROM Professor Pr, Participating Pa
-WHERE Pr.id = Pa.pid
-```
-
-3) Return the minimum age of all professors
-
-```
-SELECT MIN(U.age)
-FROM Professor P, User U
-WHERE P.uid = U.uid
-```
-
-
-### Group By (at least 1)
-1) Return the number of users in each user group
+1) Return the number of users in C3
 
 ```
 SELECT COUNT(U)
-FROM User U, UserGroup UG
-GROUP BY UG.name
+FROM User U, Residence R
+WHERE U.rid = R.rid AND R.name = 'C3'
 ```
 
-2) Return the average age for each user group
+2) Return the number of notifications for a user
 
 ```
-SELECT AVG(U.age)
-FROM User U, UserGroup UG
-GROUP BY UG.name
+SELECT COUNT(M)
+FROM User U, Notification N
+WHERE U.uid = N.uid
 ```
-
-3) Return the number of events in each category
-
-```
-SELECT COUNT(E.eid)
-FROM Event E, Category C
-WHERE E.eid = C.eid
-GROUP BY C.name
-```
-
-4.) Return the number of students living in each residence
-
-```
-SELECT COUNT(S.sid)
-FROM Student S, Residence R
-WHERE S.rid = R.rid 
-GROUP BY R.name
-```
-
-### Join (at least 4)
-1) Get a table of all students and their residences
-
-```
-SELECT *
-FROM Student S, Residence R
-WHERE S.rid = R.rid
-```
-
-2) Get a table of all users and the events names they're participating in
-
-```
-SELECT U.name, E.name
-FROM User U, Event E, SingularAttendance SA, RecurringAttendance RA
-WHERE (U.uid = SA.uid AND SA.eid = E.eid) OR (U.uid = RA.uid AND RA.eid = E.eid) 
-```
-
-3) Get a table of all users and the events names they're hosting in
-4) Get a table of all user groups and their member names
-5) Get a table of all recurring events and their dates
 
 ### Others
 1) Get all users participating in a specific event
