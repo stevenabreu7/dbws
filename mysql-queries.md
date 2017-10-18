@@ -12,12 +12,12 @@ FROM User U, Residence R
 WHERE U.rid = R.rid AND R.name = 'C3'
 ```
 
-2) Return the number of professors participating in at least one event
+2) Return the number of events of today
 
 ```
-SELECT COUNT(P)
-FROM Professor Pr, Participating Pa
-WHERE Pr.id = Pa.pid
+SELECT COUNT(E)
+FROM Event E, OneTimeEvent OTE, RecurringSingle RS
+WHERE RS.day = CURDATE() OR OTE.day = CURDATE()
 ```
 
 3) Return the minimum age of all professors
@@ -34,7 +34,8 @@ WHERE P.uid = U.uid
 
 ```
 SELECT COUNT(U)
-FROM User U, UserGroup UG
+FROM User U, UserGroup UG, UserGroupMembership UGM
+WHERE U.uid = UGM.uid AND UGM.gid = UG.gid
 GROUP BY UG.name
 ```
 
@@ -97,6 +98,11 @@ WHERE U.uid = UGM.uid AND UGM.gid = UG.gid
 ```
 5) Get a table of all recurring events and their dates
 
+```
+SELECT E.name, RS.day
+FROM Event E, RecurringSingle RS, RecurringEvent RE
+WHERE E.eid = RE.eid AND RS.recid = RE.recid
+```
 ### Others
 1) Get all users participating in a specific event
 
