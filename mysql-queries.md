@@ -11,11 +11,14 @@ SELECT COUNT(U.uid)
 FROM User U, Residence R
 WHERE U.rid = R.rid AND R.name = 'C3'
 
-MariaDB [dbws]> SELECT COUNT(U.uid) FROM User U, Residence R WHERE U.rid = R.rid AND R.name = 'C3';
+
+MariaDB [dbws]> SELECT COUNT(U.uid)
+    -> FROM User U, Residence R
+    -> WHERE U.rid = R.rid AND R.name = 'C3';
 +--------------+
 | COUNT(U.uid) |
 +--------------+
-|            0 |
+|            1 |
 +--------------+
 1 row in set (0.00 sec)
 
@@ -42,13 +45,23 @@ MariaDB [dbws]> SELECT COUNT(E.eid) FROM Event E, OneTimeEvent OTE, RecurringSin
 1) Return the number of users in each user group
 
 ```
-SELECT COUNT(U.uid)
+SELECT UG.name, COUNT(U.uid)
 FROM User U, UserGroup UG, UserGroupMembership UGM
 WHERE U.uid = UGM.uid AND UGM.gid = UG.gid
 GROUP BY UG.name
 
-MariaDB [dbws]> SELECT COUNT(U.uid) FROM User U, UserGroup UG, UserGroupMembership UGM WHERE U.uid = UGM.uid AND UGM.gid = UG.gid GROUP BY UG.name;
-Empty set (0.00 sec)
+MariaDB [dbws]> SELECT UG.name, COUNT(U.uid)
+    -> FROM User U, UserGroup UG, UserGroupMembership UGM
+    -> WHERE U.uid = UGM.uid AND UGM.gid = UG.gid
+    -> GROUP BY UG.name
+    -> ;
++---------+--------------+
+| name    | COUNT(U.uid) |
++---------+--------------+
+| CS 2019 |            1 |
+| FY 2017 |            1 |
++---------+--------------+
+2 rows in set (0.00 sec)
 
 ```
 
