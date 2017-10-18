@@ -20,15 +20,6 @@ FROM Event E, OneTimeEvent OTE, RecurringSingle RS
 WHERE RS.day = CURDATE() OR OTE.day = CURDATE()
 ```
 
-3) Return the minimum age of all professors
-
-```
-SELECT MIN(U.age)
-FROM Professor P, User U
-WHERE P.uid = U.uid
-```
-
-
 ### Group By (at least 1)
 1) Return the number of users in each user group
 
@@ -36,14 +27,6 @@ WHERE P.uid = U.uid
 SELECT COUNT(U)
 FROM User U, UserGroup UG, UserGroupMembership UGM
 WHERE U.uid = UGM.uid AND UGM.gid = UG.gid
-GROUP BY UG.name
-```
-
-2) Return the average age for each user group
-
-```
-SELECT AVG(U.age)
-FROM User U, UserGroup UG
 GROUP BY UG.name
 ```
 
@@ -104,12 +87,12 @@ FROM Event E, RecurringSingle RS, RecurringEvent RE
 WHERE E.eid = RE.eid AND RS.recid = RE.recid
 ```
 ### Others
-1) Get all users participating in a specific event
+1) Get all users participating in a specific singular event
 
 ```
 SELECT U
-FROM User U, Participates P
-WHERE P.uid = U.uid AND P.eid = 'eventId'
+FROM User U, SingularAttendance SA
+WHERE SA.uid = U.uid AND SA.eid = 'eventId'
 ```
 
 2) Get all students living in C3
@@ -123,17 +106,17 @@ WHERE S.uid = L.uid AND R.rid = L.rid AND R.name = 'C3'
 3) Get all users that host at least one event
 
 ```
-SELECT U
-FROM User U, Owns O
-WHERE U.uid IN (SELECT )
+SELECT DISTINCT U
+FROM User U, Organizer O
+WHERE U.uid IN (SELECT O.uid FROM Organizer O)
 ```
 
 4) Get the names of all users that participate in at least one event
 
 ```
 SELECT DISTINCT U
-FROM User U, Participating P
-WHERE U.uid = P.uid
+FROM User U, SingularAttendance SA, RecurringAttendance RA
+WHERE U.uid = SA.uid OR U.uid = RA.uid
 ```
 
 5) Get all events taking place in a specific location
