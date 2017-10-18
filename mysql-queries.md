@@ -225,14 +225,20 @@ MariaDB [dbws]> SELECT U.*
 2) Get all students living in C3
 
 ```
-SELECT S.*
-FROM Student S, Residence R
-WHERE S.rid = R.rid AND R.name = 'C3'
+SELECT U.*
+FROM User U, Residence R
+WHERE U.rid = R.rid AND R.name = 'C3'
 
-MariaDB [dbws]> SELECT S.*
-    -> FROM Student S, Residence R
-    -> WHERE S.rid = R.rid AND R.name = 'C3';
-Empty set (0.00 sec)
+MariaDB [dbws]> SELECT U.*
+    -> FROM User U, Residence R
+    -> WHERE U.rid = R.rid AND R.name = 'C3';
++-----+-----------+-----------+-------------+-----------+------------+------+
+| uid | firstname | lastname  | email       | activated | joined     | rid  |
++-----+-----------+-----------+-------------+-----------+------------+------+
+|   2 | Oldie     | McOldface | o.mcoldface |         1 | 2015-09-01 |    2 |
++-----+-----------+-----------+-------------+-----------+------------+------+
+1 row in set (0.00 sec)
+
 ```
 
 3) Get all users that host at least one event
@@ -258,7 +264,13 @@ WHERE U.uid = SA.uid OR U.uid = RA.uid
 MariaDB [dbws]> SELECT DISTINCT U.*
     -> FROM User U, SingularAttendance SA, RecurringAttendance RA
     -> WHERE U.uid = SA.uid OR U.uid = RA.uid;
-Empty set (0.00 sec)
++-----+-----------+-----------+-------------+-----------+------------+------+
+| uid | firstname | lastname  | email       | activated | joined     | rid  |
++-----+-----------+-----------+-------------+-----------+------------+------+
+|   2 | Oldie     | McOldface | o.mcoldface |         1 | 2015-09-01 |    2 |
++-----+-----------+-----------+-------------+-----------+------------+------+
+1 row in set (0.00 sec)
+
 ```
 
 5) Get all events taking place in a specific location
@@ -270,6 +282,13 @@ WHERE E.locid = L.locid AND L.name = 'location'
 
 MariaDB [dbws]> SELECT E.*
     -> FROM Event E, Location L
-    -> WHERE E.locid = L.locid AND L.name = 'location';
-Empty set (0.00 sec)
+    -> WHERE E.locid = L.locid AND L.name = 'The Other Side';
++-----+---------------+--------+------+-------+-------+------+
+| eid | name          | public | gid  | locid | catid | max  |
++-----+---------------+--------+------+-------+-------+------+
+|   3 | Midterm F2017 |      1 |    1 |     1 |     2 |  300 |
+|   4 | Diwali 2017   |      1 |    1 |     1 |     1 |  300 |
++-----+---------------+--------+------+-------+-------+------+
+2 rows in set (0.00 sec)
+
 ```
