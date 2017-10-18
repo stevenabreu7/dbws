@@ -75,7 +75,9 @@ WHERE S.rid = R.rid
 2) Get a table of all users and the events names they're participating in
 
 ```
-
+SELECT U.name, E.name
+FROM User U, Event E, SingularAttendance SA, RecurringAttendance RA
+WHERE (U.uid = SA.uid AND SA.eid = E.eid) OR (U.uid = RA.uid AND RA.eid = E.eid) 
 ```
 
 3) Get a table of all users and the events names they're hosting in
