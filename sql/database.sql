@@ -28,6 +28,8 @@ CREATE TABLE User (
 	activated BOOLEAN NOT NULL,
 	joined DATE NOT NULL,
 	rid INT,
+        salt VARCHAR(64) NOT NULL,
+        password VARCHAR(64) NOT NULL,
 	PRIMARY KEY (uid),
 	FOREIGN KEY (rid) REFERENCES Residence(rid)
 );
